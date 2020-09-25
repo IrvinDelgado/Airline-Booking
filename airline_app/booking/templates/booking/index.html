@@ -1,0 +1,73 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'booking/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'booking/bootstrap.min.css' %}">
+<script type="text/javascript" src="{% static 'booking/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'booking/bootstrap.min.js' %}"></script>
+
+
+<!--#############################################################   NAVBAR     ########################################################-->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Airline Booking Project</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/booking/bookings">Bookings</a>
+      </li>
+    </ul>
+    <div class="user">
+      <a href="#" data-toggle="modal" data-target="#modalLoginForm" style="text-decoration: none; color:white"><span
+          id="userName">Please Sign in<span></a>
+    </div>
+  </div>
+</nav>
+
+
+<!--#############################################################     MODAL BOX      ########################################################-->
+
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <!--THERE IS GOING TO BE A FORM THAT POINTS TO SIGN IN-->
+        {% load crispy_forms_tags %}
+
+        {% block content %}
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="submit" name="Sign_In" value="login" class="btn btn-primary">Sign in</button>
+            <a href="/booking/sign_up" name="Sign_Up" value="Subscribe" style="font-size: small;">Sign Up</a>
+          </div>
+        </form>
+        {% endblock %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+
+    $("#modalLoginForm").modal('show');
+
+  });
+</script>

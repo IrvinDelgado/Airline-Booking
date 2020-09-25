@@ -1,0 +1,23 @@
+.user{
+    color: white;
+    font-size: x-large;
+    transition: 0.5s;
+}
+.user:hover{
+    background-color: #4e555c;
+    transform: scale(1.2);
+}
+.bookFlight{
+    font-size: xx-large;
+    text-align: center;
+}
+.container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.submitFlight{
+    margin-top: 30px;
+    margin-left: 34%;
+}
