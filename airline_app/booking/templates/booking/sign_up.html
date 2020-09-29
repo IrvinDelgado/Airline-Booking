@@ -38,7 +38,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Sign Up</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -52,8 +52,7 @@
           {% csrf_token %}
           {{ form|crispy }}
           <div class="modal-footer d-flex justify-content-center">
-            <button type="submit" name="Sign_In" value="login" class="btn btn-primary">Sign in</button>
-            <a href="/booking/sign_up" name="Sign_Up" value="Subscribe" style="font-size: small;">Sign Up</a>
+            <button type="submit" name="sign_Up" value="sign_Up" class="btn btn-primary">Sign Up</button>
           </div>
         </form>
         {% endblock %}
@@ -71,3 +70,4 @@
 
   });
 </script>
+

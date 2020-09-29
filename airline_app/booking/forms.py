@@ -7,23 +7,30 @@ class Sign_In_Form(ModelForm):
         model = Customer
         fields = ['email','name']
 
-    name = forms.CharField(required = True)
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        name = self.cleaned_data.get("name")
 
-    def clean_email(self):         
-        email = self.cleaned_data.get('email')         
-        try:             
-            matchEmail = Customer.objects.get(email=email)         
-        except Customer.DoesNotExist:             
-            raise forms.ValidationError('This email does not exist!')         
-        return self.cleaned_data.get('email')      
-    
-    def clean_name(self):         
-        name = self.cleaned_data.get('name')         
-        try:             
-            matchName = Customer.objects.get(name=name)         
-        except Customer.DoesNotExist:             
-            raise forms.ValidationError("This name either doesn't match email or doesn't exist")         
-        return name
+        if email and name:
+            try:             
+                matchEmail = Customer.objects.get(email=email,name=name)         
+            except Customer.DoesNotExist:             
+                raise forms.ValidationError("email or username don't match")  
+                
 
+
+
+class Sign_Up_Form(ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['email','name','iata']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        try:
+            match = Customer.objects.get(email=email)
+        except Customer.DoesNotExist:
+            return email
+        raise forms.ValidationError('This email address is already in use.')
 
 
