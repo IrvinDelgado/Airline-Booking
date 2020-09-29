@@ -7,6 +7,8 @@ class Sign_In_Form(ModelForm):
         model = Customer
         fields = ['email','name']
 
+    name = forms.CharField(required=True)
+    
     def clean(self):
         email = self.cleaned_data.get("email")
         name = self.cleaned_data.get("name")
@@ -16,15 +18,13 @@ class Sign_In_Form(ModelForm):
                 matchEmail = Customer.objects.get(email=email,name=name)         
             except Customer.DoesNotExist:             
                 raise forms.ValidationError("email or username don't match")  
-                
-
-
 
 class Sign_Up_Form(ModelForm):
     class Meta:
         model = Customer
         fields = ['email','name','iata']
-
+    name = forms.CharField(required=True)
+    
     def clean_email(self):
         email = self.cleaned_data.get('email')
         try:
