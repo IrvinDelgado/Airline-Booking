@@ -42,3 +42,8 @@ class Add_CreditCard_Form(ModelForm):
     class Meta:
         model = CreditCardTable
         fields = ['credit_card','payment']
+
+class Billing_Config(ModelForm):
+    class Meta:
+        model = BillingInfo
+        fields = ['address', 'credit_card', 'payment']

@@ -99,7 +99,30 @@ def deleteCreditCard(request,userEmail,userCreditCard):
     return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addCreditCard')
 
 def configureBilling(request,userEmail):
+    user_Payment_Object = PaymentOptions.objects.get(email=userEmail)
+    user_item_list = []
+    for b in BillingInfo.objects.filter(payment_id=user_Payment_Object.payment_id):
+        user_Credit_Card_ID = b.credit_card_id
+        user_Address_ID = b.address_id
+        user_Address = AddressTable.objects.get(address_id=user_Address_ID).address
+        user_Credit_Card = CreditCardTable.objects.get(card_id = user_Credit_Card_ID).credit_card
+        user_item_list.append([user_Credit_Card,user_Address,b.billing_id])
+
+    if request.method == 'POST':
+        form = Billing_Config(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/configureBilling')
+    else:
+        form = Billing_Config(initial={'payment':user_Payment_Object,})
+        form.fields['payment'].widget = forms.HiddenInput()
     context = {
-        'form':form
+        'form':form,
+        'email':userEmail,
+        'user_item_list':user_item_list,
     }
     return render(request,'booking/configureBilling.html',context)
+
+def deleteBilling(request,userEmail,billing_id):
+    BillingInfo.objects.get(billing_id=billing_id).delete()
+    return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/configureBilling')

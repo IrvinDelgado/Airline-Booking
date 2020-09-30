@@ -38,6 +38,13 @@
             {{ form|crispy }}
             <button type="submit" name="itemAdd" value="item" class="btn btn-primary">Add Billing Option</button>
           </form>
+          <div>
+            <h3>Billings Options</h3>
+            {% for item in user_item_list %}
+              <p>CreditCard: {{ item.0 }}- Address: {{item.1}}</p><a class = "btn btn-danger" href="/booking/userSettings/{{email}}/configureBilling/deleteBilling/{{item.2}}">Delete Payment Option</a>
+            {% endfor %}
+          </div>
         {% endblock %}   
     </div>
+    
   </div>
