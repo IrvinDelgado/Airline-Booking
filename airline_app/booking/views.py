@@ -98,8 +98,8 @@ def deleteCreditCard(request,userEmail,userCreditCard):
     CreditCardTable.objects.get(card_id = userCreditCard).delete()
     return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addCreditCard')
 
-def userBilling(request,userEmail):
+def configureBilling(request,userEmail):
     context = {
         'form':form
     }
-    return render(request,'booking/userBilling.html',context)
+    return render(request,'booking/configureBilling.html',context)

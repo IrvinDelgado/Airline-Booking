@@ -10,6 +10,6 @@ urlpatterns = [
     path('userSettings/<str:userEmail>/deleteAddress/<str:userAddress>', views.deleteAddress, name='deleteAddress'),
     path('userSettings/<str:userEmail>/addCreditCard', views.addCreditCard, name='addCreditCard'),
     path('userSettings/<str:userEmail>/deleteCreditCard/<str:userCreditCard>', views.deleteCreditCard, name='deleteCreditCard'),
-    path('userSettings/<str:userEmail>/userBilling', views.userBilling, name='userBilling'),
+    path('userSettings/<str:userEmail>/configureBilling', views.configureBilling, name='configureBilling'),
 
 ]
