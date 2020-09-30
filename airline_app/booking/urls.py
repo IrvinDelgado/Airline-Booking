@@ -12,5 +12,6 @@ urlpatterns = [
     path('userSettings/<str:userEmail>/deleteCreditCard/<str:userCreditCard>', views.deleteCreditCard, name='deleteCreditCard'),
     path('userSettings/<str:userEmail>/configureBilling', views.configureBilling, name='configureBilling'),
     path('userSettings/<str:userEmail>/configureBilling/deleteBilling/<str:billing_id>', views.deleteBilling, name='deleteBilling'),
+    path('<str:userEmail>/store', views.store, name ='store'),
 
 ]

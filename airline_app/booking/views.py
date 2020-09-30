@@ -126,3 +126,9 @@ def configureBilling(request,userEmail):
 def deleteBilling(request,userEmail,billing_id):
     BillingInfo.objects.get(billing_id=billing_id).delete()
     return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/configureBilling')
+
+def store(request,userEmail):
+    context = {
+        'email':userEmail,
+    }
+    return render(request,'booking/store.html',context)
