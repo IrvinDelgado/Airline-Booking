@@ -5,6 +5,10 @@ from django import forms
 from .models import *
 from .forms import *
 
+from datetime import date,datetime,timedelta 
+import random
+import string
+
 # Create your views here.
 
 def index(request):
@@ -128,7 +132,57 @@ def deleteBilling(request,userEmail,billing_id):
     return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/configureBilling')
 
 def store(request,userEmail):
+    # Look for flights if not then create and reload page
+    if Flight.objects.filter(date = date.today()).exists()==False:
+        createFlights()
+
+    list_of_flights = []
+    for f in Flight.objects.all():
+        list_of_flights.append(f)
+
     context = {
-        'email':userEmail,
+        'email': userEmail,
+        'list_of_flights': list_of_flights,
     }
     return render(request,'booking/store.html',context)
+
+#------------------------------------------HELPER FUNCTIONS------------------------
+def createFlightNumber():
+    length = 10
+    letters_and_digits = string.ascii_letters.upper() + string.digits
+    result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
+    return(result_str)
+
+def createListofRandomAirports():
+    list_airports = []
+    for a in Airport.objects.all():
+        list_airports.append(a.iata)
+    randomAirports = random.sample(list_airports, k=2)
+    list_airport_objects = [Airport.objects.get(iata=randomAirports[0]),
+                            Airport.objects.get(iata=randomAirports[1])]
+    return list_airport_objects
+
+
+def createFlights():
+    airline_code = Airline.objects.get(airline_code='AA')
+    for i in range(0,5):
+        airports = createListofRandomAirports()
+        departure_airport = airports[0]
+        destination_airport = airports[1]
+        time_departure = datetime.now() + timedelta(hours=random.choice(range(1, 3)))
+        time_destination = time_departure + timedelta(hours=random.choice(range(2, 6)))
+        #to string .strftime("%H:%M:%S")
+        f = Flight.objects.create(
+            flight_number=createFlightNumber(),
+            airline_code= airline_code,
+            airline_name= airline_code.airline_name,
+            date = date.today(),
+            departure_airport = departure_airport,
+            destination_airport = destination_airport,
+            departure_time= time_departure,
+            destination_time = time_destination,
+            first_max_seats = 20,
+            economy_max_seats = 100,
+            price = 120,
+        )
+        f.save()

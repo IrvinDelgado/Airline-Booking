@@ -29,12 +29,11 @@ class Airline(models.Model):
 
 class Flight(models.Model):
     flight_number = models.CharField(primary_key=True, max_length=10)
-    flight_in = models.ForeignKey(Airport, on_delete = models.CASCADE)
     airline_code = models.ForeignKey(Airline, models.DO_NOTHING, db_column='airline_code', blank=True, null=True)
     airline_name = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-    departure_airport = models.CharField(max_length=5, blank=True, null=True)
-    destination_airport = models.CharField(max_length=5, blank=True, null=True)
+    departure_airport = models.ForeignKey(Airport, on_delete = models.CASCADE, related_name='departure_airport')
+    destination_airport = models.ForeignKey(Airport, on_delete = models.CASCADE, related_name='destination_airport')
     departure_time = models.TimeField(blank=True, null=True)
     destination_time = models.TimeField(blank=True, null=True)
     first_max_seats = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
