@@ -146,6 +146,22 @@ def store(request,userEmail):
     }
     return render(request,'booking/store.html',context)
 
+def cart(request,userEmail,flight_number):
+    if request.method == 'POST':
+        form = Cart_Form(request.method)
+        return HttpResponseRedirect(f'/booking/{userEmail}/store')
+    else:
+        form = Cart_Form(initial={'flight_number':flight_number,})
+    context = {
+        'form': form,
+        'email': userEmail,
+        'flight_number': flight_number,
+    }
+    return render(request,'booking/cart.html',context)
+
+
+
+
 #------------------------------------------HELPER FUNCTIONS------------------------
 def createFlightNumber():
     length = 10

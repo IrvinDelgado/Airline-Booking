@@ -40,6 +40,9 @@ class Flight(models.Model):
     economy_max_seats = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     
+    def __str__(self):
+        return str(self.flight_number)
+
     class Meta:
         db_table = 'flight'
 
@@ -54,18 +57,6 @@ class Customer(models.Model):
 
     class Meta:
         db_table = 'customer'
-
-
-
-class Booked(models.Model):
-    flight_number = models.OneToOneField('Flight', models.DO_NOTHING, db_column='flight_number', primary_key=True)
-    email = models.ForeignKey('Customer', models.DO_NOTHING, db_column='email')
-    class_type = models.CharField(db_column='class_type', max_length=10)  
-
-    class Meta:
-        db_table = 'booked'
-        unique_together = (('flight_number', 'email', 'class_type'),)
-
 
 class PaymentOptions(models.Model):
     payment_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -104,22 +95,15 @@ class CreditCardTable(models.Model):
 
 
 class Booking(models.Model):
+    class typesOfClass(models.TextChoices):
+        FIRST_CLASS = 'F'
+        ECONOMY_CLASS = 'E'
     booking_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    credit_card = models.DecimalField(max_digits=15, decimal_places=0, blank=True, null=True)
-    payment = models.ForeignKey('CreditCardTable', models.DO_NOTHING, blank=True, null=True)
-    email = models.ForeignKey('Customer', models.DO_NOTHING, db_column='email', blank=True, null=True)
-
+    flight_number = models.ForeignKey('Flight', models.DO_NOTHING, db_column='flight_number', null=True)
+    billing = models.ForeignKey('BillingInfo', models.DO_NOTHING, blank=True, null=True)
+    class_type = models.CharField(db_column='class_type', max_length= 2,choices=typesOfClass.choices, default=typesOfClass.ECONOMY_CLASS )
     class Meta:
         db_table = 'booking'
-
-
-class FlightNumbers(models.Model):
-    #flight_number_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    to_booking = models.ForeignKey('Booking', models.DO_NOTHING, blank =True, null=True)
-    flight_number = models.OneToOneField(Flight, models.DO_NOTHING, db_column='flight_number')
-
-    class Meta:
-        db_table = 'flight_numbers'
 
 
 class MilProgram(models.Model):
@@ -139,6 +123,9 @@ class BillingInfo(models.Model):
     address = models.ForeignKey('AddressTable', models.DO_NOTHING, blank=True, null=True)
     credit_card = models.ForeignKey('CreditCardTable', models.DO_NOTHING, blank=True, null=True)
     payment = models.ForeignKey('PaymentOptions', models.DO_NOTHING, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.credit_card)
 
     class Meta:
         db_table = 'billing_info'

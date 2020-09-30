@@ -47,3 +47,8 @@ class Billing_Config(ModelForm):
     class Meta:
         model = BillingInfo
         fields = ['address', 'credit_card', 'payment']
+
+class Cart_Form(ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['flight_number','billing','class_type']

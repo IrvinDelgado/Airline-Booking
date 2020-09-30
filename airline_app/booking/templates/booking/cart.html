@@ -28,20 +28,17 @@
   </div>
 </nav>
 <div class = "container">
-    <h1>Welcome to the Store {{email}}!</h1>
-    <a href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
-    {% block content %}
-        {% for flight in list_of_flights %}
-        <br>
-        <hr>    
-        <div>
-            <h3>From: {{flight.departure_airport.iata}}  ->  To: {{flight.destination_airport.iata}}</h3>
-            <h5>Around ${{flight.price}}</h5>
-            <h6>At: {{flight.departure_time}} | Arriving: {{flight.destination_time}}</h6>
-            <p>{{flight.airline_name}}</p>
-            <a href = "{% url 'booking:cart' email flight.flight_number %}" name="buy" value="buy" class="btn btn-success">BUY</a>
-        </div>
-        <br>
-        {% endfor %}
-      {% endblock %} 
+    <h1>Welcome to the Cart {{email}}!</h1>
+    <a class="btn btn-primary" href="/booking/{{ email }}/store">Back to Store</a>
+
+
+    {% load crispy_forms_tags %}
+
+        {% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+          <button type="submit" name="buy" value="buy" class="btn btn-success">BUY</button>
+      </form>
+      {% endblock %}
 </div>
