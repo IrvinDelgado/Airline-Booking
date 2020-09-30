@@ -26,6 +26,9 @@ def sign_Up(request):
         if form.is_valid():
             form.save()
             userEmailObj = request.POST.get('email',None)
+            customer = Customer.objects.get(email=userEmailObj)
+            payment = PaymentOptions(email = customer)
+            payment.save()
             return HttpResponseRedirect(f'/booking/userSettings/{userEmailObj}')
     else:
         form = Sign_Up_Form()
@@ -35,4 +38,68 @@ def sign_Up(request):
     return render(request, 'booking/sign_up.html',context)
 
 def userSettings(request,userEmail):
-    return render(request, 'booking/userSettings.html')
+    context = {
+        'email':userEmail,
+    }
+    return render(request, 'booking/userSettings.html',context)
+
+
+def addAddress(request,userEmail):
+    user_Payment_Object = PaymentOptions.objects.get(email=userEmail)
+    user_item_list = []
+    for a in AddressTable.objects.filter(payment_id=user_Payment_Object.payment_id):
+        user_item_list.append([a.address,a.address_id])
+
+    if request.method == 'POST':
+        form = Add_Address_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addAddress')
+    else:
+        form = Add_Address_Form(initial={'payment':user_Payment_Object,})
+        form.fields['payment'].widget = forms.HiddenInput()
+
+    context = {
+        'form':form,
+        'email':userEmail,
+        'item_changing':'Address',
+        'user_item_list':user_item_list,
+    }
+    return render(request, 'booking/modifyItem.html',context)
+
+def deleteAddress(request,userEmail,userAddress):
+    AddressTable.objects.get(address_id = userAddress).delete()
+    return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addAddress')
+
+def addCreditCard(request,userEmail):
+    user_Payment_Object = PaymentOptions.objects.get(email=userEmail)
+    user_item_list = []
+    for c in CreditCardTable.objects.filter(payment_id=user_Payment_Object.payment_id):
+        user_item_list.append([c.credit_card,c.card_id])
+
+    if request.method == 'POST':
+        form = Add_CreditCard_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addCreditCard')
+    else:
+        form = Add_CreditCard_Form(initial={'payment':user_Payment_Object,})
+        form.fields['payment'].widget = forms.HiddenInput()
+
+    context = {
+        'form':form,
+        'email':userEmail,
+        'item_changing':'CreditCard',
+        'user_item_list':user_item_list,
+    }
+    return render(request, 'booking/modifyItem.html',context)
+
+def deleteCreditCard(request,userEmail,userCreditCard):
+    CreditCardTable.objects.get(card_id = userCreditCard).delete()
+    return HttpResponseRedirect(f'/booking/userSettings/{userEmail}/addCreditCard')
+
+def userBilling(request,userEmail):
+    context = {
+        'form':form
+    }
+    return render(request,'booking/userBilling.html',context)

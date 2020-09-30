@@ -33,4 +33,12 @@ class Sign_Up_Form(ModelForm):
             return email
         raise forms.ValidationError('This email address is already in use.')
 
+class Add_Address_Form(ModelForm):
+    class Meta:
+        model = AddressTable
+        fields = ['address','payment']
 
+class Add_CreditCard_Form(ModelForm):
+    class Meta:
+        model = CreditCardTable
+        fields = ['credit_card','payment']

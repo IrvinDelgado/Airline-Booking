@@ -27,22 +27,26 @@
     </div>
   </div>
 </nav>
+
 <div class = "container">
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/addAddress">Add/Delete Address</a>
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/addCreditCard">Add/Delete Credit Cards</a>
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/configureBilling">Configure Billing Payment</a>
+  <a href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
+  <div class = "list_of_items">
+      {% load crispy_forms_tags %}
+      {% block content %}
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" name="itemAdd" value="item" class="btn btn-primary">Add {{item_changing}}</button>
+        </form>
+        <div>
+          <h1>{{item_changing}}</h1>
+          {% for item in user_item_list %}
+          <p>{{ item.0 }}<p><a class = "btn btn-danger" href="/booking/userSettings/{{email}}/delete{{item_changing}}/{{item.1}}">Delete {{item_changing}}</a>
+          {% endfor %}
+        </div>
+      {% endblock %}   
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

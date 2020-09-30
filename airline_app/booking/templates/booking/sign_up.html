@@ -53,6 +53,7 @@
           {{ form|crispy }}
           <div class="modal-footer d-flex justify-content-center">
             <button type="submit" name="sign_Up" value="sign_Up" class="btn btn-primary">Sign Up</button>
+            <a href="{% url 'booking:index' %}" name="Sign_In" value="Sign_In" style="font-size: small;">Sign In</a>
           </div>
         </form>
         {% endblock %}
