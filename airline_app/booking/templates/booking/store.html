@@ -29,7 +29,8 @@
 </nav>
 <div class = "container">
     <h1>Welcome to the Store {{email}}!</h1>
-    <a href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
+    <a class="btn btn-primary" href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
+    <a class="btn btn-primary" href="/booking/{{ email }}/flightsBought">View Tickets Purchased</a>
     {% block content %}
         {% for flight in list_of_flights %}
         <br>

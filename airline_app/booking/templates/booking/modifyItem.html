@@ -29,7 +29,7 @@
 </nav>
 
 <div class = "container">
-  <a href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
+  <a class="btn btn-primary" href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
   <div class = "list_of_items">
       {% load crispy_forms_tags %}
       {% block content %}

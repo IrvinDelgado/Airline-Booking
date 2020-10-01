@@ -30,8 +30,8 @@
 <div class = "container">
     <h1>Welcome to the Cart {{email}}!</h1>
     <a class="btn btn-primary" href="/booking/{{ email }}/store">Back to Store</a>
-
-
+    <a class="btn btn-primary" href="/booking/{{ email }}/flightsBought">View Tickets Purchased</a>
+  
     {% load crispy_forms_tags %}
 
         {% block content %}
@@ -40,5 +40,5 @@
         {{ form|crispy }}
           <button type="submit" name="buy" value="buy" class="btn btn-success">BUY</button>
       </form>
-      {% endblock %}
+       {% endblock %}
 </div>

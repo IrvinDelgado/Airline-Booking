@@ -120,7 +120,7 @@ class MilProgram(models.Model):
         
 class BillingInfo(models.Model):
     billing_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    address = models.ForeignKey('AddressTable', models.DO_NOTHING, blank=True, null=True)
+    address = models.ForeignKey('AddressTable',models.DO_NOTHING, blank=True, null=True)
     credit_card = models.ForeignKey('CreditCardTable', models.DO_NOTHING, blank=True, null=True)
     payment = models.ForeignKey('PaymentOptions', models.DO_NOTHING, blank=True, null=True)
 

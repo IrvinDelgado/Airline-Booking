@@ -27,25 +27,28 @@
     </div>
   </div>
 </nav>
+
 <div class = "container">
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/addAddress">Add/Delete Address</a>
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/addCreditCard">Add/Delete Credit Cards</a>
-<a class="btn btn-primary" href="/booking/userSettings/{{ email }}/configureBilling">Configure Billing Payment</a>
-<a class="btn btn-primary" href="/booking/{{ email }}/store">Buy Tickets</a>
-<a class="btn btn-primary" href="/booking/{{ email }}/flightsBought">View Tickets Purchased</a>
-<a class="btn btn-warning" href="{% url 'booking:index' %}" name="Sign_In" value="Sign_In" style="font-size: small;">Sign Out</a>
+  
+  <div class = "list_of_items">     
+      {% block content %}
+        <div>
+          <h1>Tickets Purchased</h1>
+          <a class="btn btn-primary" href="{% url 'booking:userSettings' email %}" name="Sign_In" value="Sign_In" style="font-size: small;">To Settings</a>
+          <a class="btn btn-primary" href="/booking/{{ email }}/store">Buy Tickets</a>
+          {% for flight in flight_objects %}
+          
+            <br>
+            <hr>
+            <div>
+                <h3>From: {{flight.0.departure_airport.iata}}  ->  To: {{flight.0.destination_airport.iata}}</h3>
+                <h5>Around ${{flight.0.price}}</h5>
+                <h6>At: {{flight.0.departure_time}} | Arriving: {{flight.0.destination_time}}</h6>
+                <p>{{flight.0.airline_name}}</p>
+                <a href = "{% url 'booking:deleteFlight' email flight.1 %}" name="del" value="del" class="btn btn-danger">Delete</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endblock %}   
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

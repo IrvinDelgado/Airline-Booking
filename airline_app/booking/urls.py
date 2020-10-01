@@ -14,4 +14,6 @@ urlpatterns = [
     path('userSettings/<str:userEmail>/configureBilling/deleteBilling/<str:billing_id>', views.deleteBilling, name='deleteBilling'),
     path('<str:userEmail>/store', views.store, name ='store'),
     path('<str:userEmail>/cart/<str:flight_number>', views.cart, name ='cart'),
+    path('<str:userEmail>/flightsBought', views.flightsBought, name ='flightsBought'),
+    path('<str:userEmail>/deleteFlight/<str:booking_id>', views.deleteFlight, name ='deleteFlight'),
 ]

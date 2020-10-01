@@ -148,7 +148,9 @@ def store(request,userEmail):
 
 def cart(request,userEmail,flight_number):
     if request.method == 'POST':
-        form = Cart_Form(request.method)
+        form = Cart_Form(request.POST)
+        if form.is_valid():
+            form.save()
         return HttpResponseRedirect(f'/booking/{userEmail}/store')
     else:
         form = Cart_Form(initial={'flight_number':flight_number,})
@@ -159,7 +161,25 @@ def cart(request,userEmail,flight_number):
     }
     return render(request,'booking/cart.html',context)
 
+def flightsBought(request,userEmail):
+    payment = PaymentOptions.objects.get(email=userEmail)
+    flight_number_list = []
+    flight_objects = []
+    for bill in BillingInfo.objects.filter(payment=payment):
+        for b in Booking.objects.filter(billing=bill):
+            flight_number_list.append([b.flight_number,b.booking_id])
+    for f in flight_number_list:
+        flight_objects.append([Flight.objects.get(flight_number=f[0]), f[1]])
+    
+    context = {
+        'email': userEmail,
+        'flight_objects': flight_objects,
+    }
+    return render(request,'booking/bought.html',context)
 
+def deleteFlight(request,userEmail,booking_id):
+    Booking.objects.get(booking_id=booking_id).delete()
+    return HttpResponseRedirect(f'/booking/{userEmail}/flightsBought')
 
 
 #------------------------------------------HELPER FUNCTIONS------------------------
